@@ -1,0 +1,6 @@
+{
+  "name": "speechdub",
+  "version": "1.0.0",
+  "description": "Import text into Speechdub, manage your listening library, and generate natural speech with preset voices.",
+  "skills": "./skills/"
+}
