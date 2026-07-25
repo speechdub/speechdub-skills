@@ -1,15 +1,14 @@
 # Speechdub plugin skills
 
-Bundled **skills** for the [Speechdub](https://www.speechdub.com) plugin in the OpenAI universal plugin directory (Codex and supported assistant surfaces). Live tools and sign-in use the hosted MCP server (OAuth), not this repository.
+Agent **skills** that teach assistants when and how to use [Speechdub](https://www.speechdub.com) document and speech tools over the public MCP connection. This repo holds workflow text only; live tools and user sign-in are provided by Speechdub’s hosted MCP server.
 
-| Surface | URL |
-|---------|-----|
-| MCP (Streamable HTTP) | `https://mcp.speechdub.com/mcp` |
-| OAuth authorization server | `https://app.speechdub.com/.well-known/oauth-authorization-server` |
-| Protected resource metadata | `https://mcp.speechdub.com/.well-known/oauth-protected-resource` |
-| Agents hub | [speechdub.com/agents](https://www.speechdub.com/agents) |
+| Resource | URL |
+|----------|-----|
+| Product | [speechdub.com](https://www.speechdub.com) |
+| Agents & integrations | [speechdub.com/agents](https://www.speechdub.com/agents) |
+| MCP endpoint (Streamable HTTP) | `https://mcp.speechdub.com/mcp` |
 
-End users authenticate with their Speechdub account (OAuth). No API key is pasted in the plugin UI.
+Users connect through the plugin or MCP client UI and sign in with their Speechdub account. This repository does not contain credentials or server code.
 
 ## Layout
 
@@ -22,35 +21,37 @@ skills/
   speechdub-text-to-speech/SKILL.md
 ```
 
-MCP server implementation: [speechdub-app](https://github.com/speechdub/speechdub-app) (`apps/mcp`).
-
-## Plugin portal
-
-1. **MCP**: URL `https://mcp.speechdub.com/mcp`, OAuth via metadata discovery.
-2. **Skills**: upload `speechdub-plugin-skills.zip` (see below) or the `skills/` folder.
-3. **Domain verification**: `GET https://mcp.speechdub.com/.well-known/openai-apps-challenge` (token on the MCP deployment).
-
-### Upload zip
-
-```bash
-zip -r speechdub-plugin-skills.zip . -x "*.zip" -x ".git/*"
-```
-
-## GitHub
-
-[github.com/speechdub/speechdb-skills](https://github.com/speechdub/speechdb-skills)
-
-```bash
-git clone https://github.com/speechdub/speechdb-skills.git
-```
-
 ## Skills
 
 | Skill | When to use |
 |-------|-------------|
 | `browse-speechdub-library` | List or read saved documents |
 | `import-to-speechdub` | Create documents from pasted text |
-| `edit-speechdub-document` | Update title/body/language or delete |
+| `edit-speechdub-document` | Update title, body, language, or delete |
 | `speechdub-text-to-speech` | List voices and synthesize audio |
 
-Each skill references MCP tools `speechdub_*` on the hosted server.
+Each skill documents MCP tools named `speechdub_*` on the hosted server.
+
+## Bundle for upload
+
+Portal uploads expect **one** top-level folder in the zip: either a single skill directory or a `skills/` directory of skill roots. Do not add README, `.codex-plugin`, or other files to the skills archive unless your publish flow requires them separately.
+
+All bundled skills:
+
+```bash
+zip -r speechdub-plugin-skills.zip skills
+```
+
+Single skill:
+
+```bash
+zip -r import-to-speechdub.zip skills/import-to-speechdub
+```
+
+## Repository
+
+[github.com/speechdub/speechdub-skills](https://github.com/speechdub/speechdub-skills)
+
+```bash
+git clone https://github.com/speechdub/speechdub-skills.git
+```
