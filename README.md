@@ -27,10 +27,10 @@ skills/
 |-------|-------------|
 | `browse-speechdub-library` | List or read saved documents |
 | `import-to-speechdub` | Create documents from pasted text |
-| `edit-speechdub-document` | Update title, body, language, or delete |
-| `speechdub-text-to-speech` | List voices and synthesize audio |
+| `edit-speechdub-document` | Update title, body, language, archive, or delete |
+| `speechdub-text-to-speech` | Check wallet, list voices (`F1`–`F5`, `M1`–`M5`), synthesize audio |
 
-Each skill documents MCP tools named `speechdub_*` on the hosted server.
+Each skill documents MCP tools named `speechdub_*` on the hosted server (including `speechdub_get_account` before synthesis). REST examples live in [speechdub-public-api](https://github.com/speechdub/speechdub-public-api).
 
 ## Bundle for upload
 
