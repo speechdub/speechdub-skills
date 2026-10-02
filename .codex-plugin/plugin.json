@@ -1,6 +1,104 @@
 {
-  "name": "speechdub",
-  "version": "1.0.0",
-  "description": "Import text into Speechdub, manage your listening library, and generate natural speech with preset voices.",
-  "skills": "./skills/"
+  "name": "app-6a64dbf73b2081919451bd855439099c",
+  "version": "2.1.0",
+  "description": "Import text into your Speechdub library, open and edit saved documents, and generate spoken audio with preset voices. Sign in with your Speechdub account when you connect the plugin.",
+  "author": {
+    "name": "JOLIEBE",
+    "url": "https://www.speechdub.com"
+  },
+  "homepage": "https://www.speechdub.com",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Speechdub",
+    "shortDescription": "Import docs and listen",
+    "longDescription": "Import text into your Speechdub library, open and edit saved documents, and generate spoken audio with preset voices. Sign in with your Speechdub account when you connect the plugin. The plugin reads and changes only the library on that account.",
+    "developerName": "JOLIEBE",
+    "category": "Productivity",
+    "capabilities": [
+      "Import documents",
+      "Edit your library",
+      "Read text aloud"
+    ],
+    "websiteURL": "https://www.speechdub.com",
+    "privacyPolicyURL": "https://www.speechdub.com/privacy",
+    "termsOfServiceURL": "https://www.speechdub.com/terms",
+    "supportURL": "https://docs.speechdub.com",
+    "defaultPrompt": [
+      "List my five most recent saved documents with their titles and languages.",
+      "Save this as a new document titled Morning notes: The lecture covers photosynthesis basics.",
+      "Which English voices can read this aloud: Hello, this is a short listening test."
+    ],
+    "brandColor": "#52a86e",
+    "brandColorDark": "#8ED4A8",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/logo.svg"
+  },
+  "extensions": {
+    "com.openai": {
+      "review": {
+        "commerce": false,
+        "commerce_description": "Speechdub does not sell products or process payments. People sign in to an existing account and use the library and voices already on that account. The plugin does not open a checkout or an upgrade flow.",
+        "test_cases": {
+          "positive": [
+            {
+              "description": "List recent library documents.",
+              "prompt": "List my five most recent Speechdub documents with their titles.",
+              "tools_triggered": "speechdub_list_documents",
+              "expected_behavior": "Returns a page of documents from the signed-in library, with titles. Does not invent documents that were not returned."
+            },
+            {
+              "description": "Import pasted text as a new document.",
+              "prompt": "Create a Speechdub document titled Morning notes from this text: The lecture covers photosynthesis basics.",
+              "tools_triggered": "speechdub_create_document",
+              "expected_behavior": "Creates one library document and returns its id, title, and language."
+            },
+            {
+              "description": "Open the document that was just created.",
+              "prompt": "Open the Speechdub document titled Morning notes and show me the full text.",
+              "tools_triggered": "speechdub_list_documents, speechdub_get_document",
+              "expected_behavior": "Finds Morning notes, then returns its title, language, and full text."
+            },
+            {
+              "description": "Choose a voice and read a short line.",
+              "prompt": "Which female Speechdub voices are available? Pick one and read aloud: Hello, this is a short test.",
+              "tools_triggered": "speechdub_list_voices, speechdub_synthesize_speech",
+              "expected_behavior": "Lists voices, then synthesizes the sentence with a preset id such as F1. Reports duration or format from the tool result."
+            },
+            {
+              "description": "Rename an existing document.",
+              "prompt": "Rename my Speechdub document Morning notes to Week 3 summary.",
+              "tools_triggered": "speechdub_list_documents, speechdub_update_document",
+              "expected_behavior": "Resolves Morning notes, updates only the title, and returns the updated document."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unrelated creative writing.",
+              "prompt": "Write a haiku about autumn leaves.",
+              "expected_behavior": "Does not call Speechdub tools. The request is not about the library or spoken audio."
+            },
+            {
+              "description": "Payment or transfer.",
+              "prompt": "Transfer twenty dollars from my Speechdub account.",
+              "expected_behavior": "Refuses. Speechdub tools cannot move money, and the plugin must not open a checkout."
+            },
+            {
+              "description": "Travel planning outside scope.",
+              "prompt": "Find cheap flights from Paris to Lisbon next month.",
+              "expected_behavior": "Does not call Speechdub tools. The request is outside the document library and speech workflows."
+            }
+          ]
+        }
+      },
+      "publication": {
+        "release_notes": "Listing icons and clearer library and speech workflows.",
+        "translations": {
+          "fr-FR": {
+            "subtitle": "Importer et écouter",
+            "description": "Importez du texte dans votre bibliothèque Speechdub, ouvrez et modifiez vos documents, puis faites-les lire avec des voix prédéfinies. Connectez-vous avec votre compte Speechdub. Le plugin lit et modifie uniquement la bibliothèque de ce compte."
+          }
+        }
+      }
+    }
+  }
 }

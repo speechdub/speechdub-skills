@@ -1,0 +1,9 @@
+interface:
+  display_name: Read aloud
+  short_description: Speak text with a preset voice
+  default_prompt: Read this aloud with a calm English Speechdub voice.
+policy:
+  allow_implicit_invocation: true
+  products:
+    - CHAT
+    - CODEX

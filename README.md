@@ -28,18 +28,16 @@ skills/
 | `browse-speechdub-library` | List or read saved documents |
 | `import-to-speechdub` | Create documents from pasted text |
 | `edit-speechdub-document` | Update title, body, language, archive, or delete |
-| `speechdub-text-to-speech` | Check wallet, list voices (`F1`–`F5`, `M1`–`M5`), synthesize audio |
+| `speechdub-text-to-speech` | List voices (`F1`-`F5`, `M1`-`M5`) and synthesize audio |
 
-Each skill documents MCP tools named `speechdub_*` on the hosted server (including `speechdub_get_account` before synthesis). REST examples live in [speechdub-public-api](https://github.com/speechdub/speechdub-public-api).
+Each skill documents MCP tools named `speechdub_*` on the hosted server. REST examples live in [speechdub-public-api](https://github.com/speechdub/speechdub-public-api).
 
 ## Bundle for upload
 
-Portal uploads expect **one** top-level folder in the zip: either a single skill directory or a `skills/` directory of skill roots. Do not add README, `.codex-plugin`, or other files to the skills archive unless your publish flow requires them separately.
-
-All bundled skills:
+Directory resubmission uses the plugin root: `.codex-plugin/plugin.json`, `assets/`, and `skills/`. Keep the existing package `name`. Do not put the README or `.git` in the zip.
 
 ```bash
-zip -r speechdub-plugin-skills.zip skills
+zip -r speechdub-plugin.zip .codex-plugin assets skills
 ```
 
 Single skill:

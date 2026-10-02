@@ -1,0 +1,9 @@
+interface:
+  display_name: Edit documents
+  short_description: Rename, archive, or delete a document
+  default_prompt: Rename my latest Speechdub document.
+policy:
+  allow_implicit_invocation: true
+  products:
+    - CHAT
+    - CODEX

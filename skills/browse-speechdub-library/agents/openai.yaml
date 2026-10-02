@@ -1,0 +1,9 @@
+interface:
+  display_name: Browse library
+  short_description: List or open saved documents
+  default_prompt: List my five most recent Speechdub documents.
+policy:
+  allow_implicit_invocation: true
+  products:
+    - CHAT
+    - CODEX

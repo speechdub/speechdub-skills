@@ -1,31 +1,29 @@
 ---
 name: speechdub-text-to-speech
-description: Generate spoken audio with Speechdub preset voices when the user wants text read aloud, a voice preview, or audio output from their content.
+description: Generate spoken audio with Speechdub preset voices when the user wants text read aloud, a voice preview, or audio from their own content.
 ---
 
 # Speechdub text-to-speech
 
-Use when the user wants **audio** or **read aloud** via Speechdub voices, not only silent text in chat.
+Use when the user wants audio or text read aloud with Speechdub voices.
+
+The user's instructions take precedence over this skill. If they conflict, follow the user.
 
 ## Tools
 
-- `speechdub_get_account` — plan and wallet (`wallet_cents`, `display_credits`). Call before synthesis to avoid `payment_required`.
-- `speechdub_list_voices` — optional `gender` filter (`male` | `female`).
-- `speechdub_get_voice` — metadata for one `voice_id`. Ids are presets `F1`–`F5` and `M1`–`M5` (for example F1, M3). Display names such as Sophie are not valid ids.
-- `speechdub_synthesize_speech` — required `input` (max 5000 chars) and `voice_id`; optional `language` (ISO 639-1), `audio_format` (`wav` | `mp3`), `idempotency_key`, `include_audio_data`.
-
-MCP synthesis is non-streaming and capped at 5000 characters. For streaming or inputs up to 20,000 characters, the user (or a REST client) must call `POST https://api.speechdub.com/v1/audio/stream`. Do not invent an MCP streaming tool.
+- `speechdub_list_voices`: optional `gender` filter (`male` or `female`).
+- `speechdub_get_voice`: metadata for one `voice_id`. Ids are presets `F1`-`F5` and `M1`-`M5`. Display names are not valid ids.
+- `speechdub_synthesize_speech`: required `input` (max 5000 characters) and `voice_id`. Optional `language` (ISO 639-1), `audio_format` (`wav` or `mp3`), `idempotency_key`, `include_audio_data`.
 
 ## Workflow
 
-1. Call `speechdub_get_account` and mention remaining display credits if the balance is low.
-2. Always call `speechdub_list_voices` (or `speechdub_get_voice` if they named a preset id) **before** synthesis unless a valid `voice_id` such as `F1` is already confirmed. If they name a person (Sophie, Nathan), look up the matching `id` from `speechdub_list_voices` — never pass the display name as `voice_id`.
-3. Pick a voice that matches the user’s language or preference; say which **id** you chose.
-4. Split long text into chunks under 5000 characters if needed; synthesize per chunk. Use `idempotency_key` when retrying the same chunk after a timeout.
-5. Report billing context briefly: synthesis uses the user’s Speechdub credit wallet (same as the web app). Do not quote API keys.
-6. If `include_audio_data` is false or omitted, describe the result (duration, format, request id) per tool output; follow the client’s rules for playing or attaching audio.
+1. Before synthesis, call `speechdub_list_voices`, or `speechdub_get_voice` if they named a preset id, unless a valid `voice_id` such as `F1` is already confirmed. If they name a person, look up the matching `id` from `speechdub_list_voices`. Never pass a display name as `voice_id`.
+2. Tell the user which id you chose.
+3. If the text is longer than 5000 characters and they want all of it heard, split it into chunks under 5000 characters and synthesize each chunk. Use `idempotency_key` when retrying the same chunk after a timeout.
+4. If speech generation is unavailable for the account, say so and stop. Do not start a checkout or an upgrade.
+5. If `include_audio_data` is false or omitted, describe the result from the tool output (duration and format) and follow the client rules for playing or attaching audio.
 
 ## Boundaries
 
-- Do not create or delete library documents unless the user also asked for library changes.
-- Prefer synthesis on user-supplied or document text they explicitly want heard; do not synthesize huge documents without narrowing scope.
+- Do not create or delete library documents unless the user also asked for that.
+- Do not synthesize a long document unless they asked to hear that scope.
